@@ -13,21 +13,46 @@ const { NotImplementedError } = require('../extensions/index.js');
  * queue.dequeue(); // returns the top element from queue and deletes it, returns 1
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
-class Queue {
+ class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
 
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+class Queue {
+  constructor() {
+    this.head = null; // нет еще первого элемента
+    this.length = 0; // вспомогательный параметр длинны 
   }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  getUnderlyingList() {
+    return this.head
+  }
+
+  enqueue(value) {
+    if (this.length === 0) { // если список пустой
+      this.head = new Node(value) // создается узел и head = новому узлу
+    } else { // если список не пустой
+      let current = this.head // то получаем ссылку на текущий узел, который уже был в списке
+
+      // далее вперед по списку
+      while (current.next) { // если впереди есть узел 
+        current = current.next // меняем ссылку на след элемент и пробегаемся по списку пока не дойдем до конца = null
+      }
+      // достигнув конца уже добавляем новый едемент
+      current.next = new Node(value)
+    }
+    // и увеличиваем длинну
+    this.length++
   }
 
   dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let result = this.head.value
+    let current = this.head;
+    this.head = current.next;
+    this.length--;
+    return result
   }
 }
 
